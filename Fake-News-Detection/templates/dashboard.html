@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - FakeNewsAI{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4"><i class="fa-solid fa-gauge me-2"></i>Dashboard</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card stat-card border-0 shadow-sm">
+      <i class="fa-solid fa-newspaper"></i>
+      <h3>{{ stats.total }}</h3><span>Total Articles</span>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card border-0 shadow-sm stat-fake">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <h3>{{ stats.fake }}</h3><span>Fake Detected</span>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card border-0 shadow-sm stat-real">
+      <i class="fa-solid fa-circle-check"></i>
+      <h3>{{ stats.real }}</h3><span>Real Detected</span>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card border-0 shadow-sm">
+      <i class="fa-solid fa-calendar-day"></i>
+      <h3>{{ stats.today }}</h3><span>Today's Predictions</span>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted">Active Model</h6>
+      <h4>{{ stats.model_name }}</h4>
+      <p class="mb-0">Accuracy: <b>{{ "%.2f"|format(stats.model_accuracy) }}%</b></p>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted mb-2">Fake vs Real Distribution</h6>
+      <canvas id="pieChart" height="100"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm p-3 mb-4">
+  <h6 class="text-muted mb-2">Weekly Prediction Trend</h6>
+  <canvas id="lineChart" height="80"></canvas>
+</div>
+
+<div class="card border-0 shadow-sm p-3">
+  <h5 class="mb-3">Recent Predictions</h5>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead><tr><th>Title</th><th>Prediction</th><th>Confidence</th><th>Date</th></tr></thead>
+      <tbody>
+        {% for r in recent %}
+        <tr>
+          <td>{{ (r['title'] or r['article_text'])[:60] }}...</td>
+          <td><span class="badge {{ 'bg-danger' if r['prediction']=='Fake' else 'bg-success' }}">{{ r['prediction'] }}</span></td>
+          <td>{{ r['confidence'] }}%</td>
+          <td>{{ r['created_at'] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">No predictions yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

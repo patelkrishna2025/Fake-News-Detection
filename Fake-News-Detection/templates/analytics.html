@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Analytics - FakeNewsAI{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4"><i class="fa-solid fa-chart-line me-2"></i>Analytics</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted mb-2">Top Fake-Indicating Words</h6>
+      <canvas id="fakeWordsChart" height="120"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted mb-2">Top Real-Indicating Words</h6>
+      <canvas id="realWordsChart" height="120"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted mb-2">Prediction Distribution</h6>
+      <canvas id="distChart" height="150"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="text-muted mb-2">Model Performance Metrics</h6>
+      <table class="table" id="metricsTable">
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

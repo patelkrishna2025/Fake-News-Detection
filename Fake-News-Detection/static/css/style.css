@@ -1,0 +1,56 @@
+:root {
+  --accent: #4f46e5;
+  --accent-light: #818cf8;
+}
+
+body {
+  background-color: #f5f6fa;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+[data-bs-theme="dark"] body { background-color: #11131a; }
+
+.app-navbar {
+  background: linear-gradient(90deg, #1e1b4b, #4f46e5);
+}
+.app-navbar .nav-link, .app-navbar .navbar-brand { color: #fff !important; }
+.text-accent { color: #c7d2fe; }
+
+.card {
+  border-radius: 14px;
+  animation: fadeIn .4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 { font-size: 2.2rem; }
+
+.stat-mini i { font-size: 1.4rem; color: var(--accent); display:block; margin-bottom:4px;}
+.stat-mini { padding: 8px; }
+
+.stat-card {
+  border-radius: 14px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.stat-card i { font-size: 1.6rem; color: var(--accent); }
+.stat-card h3 { margin: 6px 0 0; font-weight: 700; }
+.stat-card span { color: #888; font-size: .85rem; }
+.stat-fake i, .stat-fake h3 { color: #dc3545; }
+.stat-real i, .stat-real h3 { color: #198754; }
+
+.keyword-chip {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: .85rem;
+  font-weight: 500;
+}
+.keyword-chip.fake { background: #fde2e2; color: #b91c1c; }
+.keyword-chip.real { background: #dcfce7; color: #15803d; }
+
+.spinner-overlay {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}

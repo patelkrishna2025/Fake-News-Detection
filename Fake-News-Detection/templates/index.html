@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Analyze News - FakeNewsAI{% endblock %}
+{% block content %}
+
+<div class="text-center mb-4 hero">
+  <h1 class="fw-bold">Detect Fake News with AI</h1>
+  <p class="text-muted">Paste a headline and article below. Our locally-trained ML model will analyze it instantly &mdash; 100% offline, no external APIs.</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 p-4 mb-4">
+      <form id="predictForm">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">News Headline</label>
+          <input type="text" class="form-control" id="title" placeholder="e.g. Government announces new policy...">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">News Article *</label>
+          <textarea class="form-control" id="article" rows="8" placeholder="Paste the full article text here..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100" id="analyzeBtn">
+          <i class="fa-solid fa-magnifying-glass-chart me-2"></i>Analyze
+        </button>
+      </form>
+    </div>
+
+    <div id="resultArea" class="d-none">
+      <div class="card shadow-sm border-0 p-4 mb-3" id="resultCard">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <h3 class="mb-0" id="resultLabel"></h3>
+          <span class="badge fs-6" id="confidenceBadge"></span>
+        </div>
+
+        <div class="row mt-4 g-3">
+          <div class="col-md-6">
+            <div class="small text-muted mb-1">Real Probability</div>
+            <div class="progress" style="height:22px">
+              <div class="progress-bar bg-success" id="realBar" role="progressbar">0%</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="small text-muted mb-1">Fake Probability</div>
+            <div class="progress" style="height:22px">
+              <div class="progress-bar bg-danger" id="fakeBar" role="progressbar">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 g-3 text-center">
+          <div class="col-md-4">
+            <div class="stat-mini"><i class="fa-solid fa-bolt"></i><div id="procTime">0 ms</div><small>Processing Time</small></div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-mini"><i class="fa-solid fa-robot"></i><div id="modelUsed">-</div><small>Model Used</small></div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-mini"><i class="fa-solid fa-file-pdf"></i><a href="#" id="reportLink" target="_blank">Download Report</a><small>PDF Report</small></div>
+          </div>
+        </div>
+
+        <hr>
+        <h5><i class="fa-solid fa-lightbulb text-warning me-2"></i>Explainable AI &mdash; Influential Keywords</h5>
+        <div id="keywordList" class="d-flex flex-wrap gap-2 mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

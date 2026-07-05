@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}AI Fake News Detector{% endblock %}</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm app-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('main.index') }}">
+      <i class="fa-solid fa-shield-halved me-2"></i>FakeNews<span class="text-accent">AI</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}"><i class="fa-solid fa-magnifying-glass me-1"></i>Analyze</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.dashboard') }}"><i class="fa-solid fa-gauge me-1"></i>Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.history') }}"><i class="fa-solid fa-clock-rotate-left me-1"></i>History</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.analytics') }}"><i class="fa-solid fa-chart-line me-1"></i>Analytics</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.admin') }}"><i class="fa-solid fa-user-shield me-1"></i>Admin</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.about') }}"><i class="fa-solid fa-circle-info me-1"></i>About</a></li>
+        <li class="nav-item ms-lg-2">
+          <button id="themeToggle" class="btn btn-sm btn-outline-secondary rounded-circle" title="Toggle dark mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-4">
+  {% block content %}{% endblock %}
+</main>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

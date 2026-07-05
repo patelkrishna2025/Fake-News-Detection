@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}History - FakeNewsAI{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4"><i class="fa-solid fa-clock-rotate-left me-2"></i>Prediction History</h2>
+
+<div class="card border-0 shadow-sm p-3 mb-4">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <input type="text" id="searchKeyword" class="form-control" placeholder="Search keyword...">
+    </div>
+    <div class="col-md-3">
+      <input type="date" id="searchDate" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <select id="searchType" class="form-select">
+        <option value="">All Types</option>
+        <option value="Fake">Fake</option>
+        <option value="Real">Real</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" id="searchBtn"><i class="fa-solid fa-search"></i> Search</button>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm p-3">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead><tr><th>ID</th><th>Title</th><th>Prediction</th><th>Confidence</th><th>Date</th><th>Report</th></tr></thead>
+      <tbody id="historyBody">
+        {% for r in rows %}
+        <tr>
+          <td>{{ r['id'] }}</td>
+          <td>{{ (r['title'] or r['article_text'])[:50] }}...</td>
+          <td><span class="badge {{ 'bg-danger' if r['prediction']=='Fake' else 'bg-success' }}">{{ r['prediction'] }}</span></td>
+          <td>{{ r['confidence'] }}%</td>
+          <td>{{ r['created_at'] }}</td>
+          <td><a href="{{ url_for('report.generate_report', pred_id=r['id']) }}" target="_blank"><i class="fa-solid fa-file-pdf text-danger"></i></a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted">No history found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}

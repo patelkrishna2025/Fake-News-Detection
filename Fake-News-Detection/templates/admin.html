@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel - FakeNewsAI{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4"><i class="fa-solid fa-user-shield me-2"></i>Admin Panel</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h5 class="mb-0">Model: {{ metadata.best_model }}</h5>
+  <a href="{{ url_for('dashboard.admin_export') }}" class="btn btn-outline-primary">
+    <i class="fa-solid fa-download me-1"></i>Export All Data (CSV)
+  </a>
+</div>
+
+<ul class="nav nav-tabs mb-3" id="adminTabs">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#predTab">Predictions</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#logTab">System Logs</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#modelTab">Model Info</button></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="predTab">
+    <div class="card border-0 shadow-sm p-3">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th>ID</th><th>Title</th><th>Prediction</th><th>Confidence</th><th>Date</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for p in predictions %}
+            <tr id="row-{{ p['id'] }}">
+              <td>{{ p['id'] }}</td>
+              <td>{{ (p['title'] or p['article_text'])[:40] }}...</td>
+              <td><span class="badge {{ 'bg-danger' if p['prediction']=='Fake' else 'bg-success' }}">{{ p['prediction'] }}</span></td>
+              <td>{{ p['confidence'] }}%</td>
+              <td>{{ p['created_at'] }}</td>
+              <td><button class="btn btn-sm btn-outline-danger delete-btn" data-id="{{ p['id'] }}"><i class="fa-solid fa-trash"></i></button></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="logTab">
+    <div class="card border-0 shadow-sm p-3">
+      <ul class="list-group list-group-flush">
+        {% for log in logs %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span><span class="badge bg-secondary me-2">{{ log['level'] }}</span>{{ log['message'] }}</span>
+          <small class="text-muted">{{ log['created_at'] }}</small>
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No logs yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="modelTab">
+    <div class="card border-0 shadow-sm p-3">
+      <pre class="mb-0">{{ metadata | tojson(indent=2) }}</pre>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
